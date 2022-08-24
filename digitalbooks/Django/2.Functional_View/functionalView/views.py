@@ -28,6 +28,6 @@ def template_test(request):
     # 1. admin 앱
     # 2. 각 앱의 폴더에 있는 tamplates 폴더
     # 3. 사용자 설정 폴더 
-    return render(request, 'test.html')
+    return render(request, 'index.html')
 
 # 함수형 뷰 만들기, 템플릿 만들기, URL연결하기, 브라우저 접속하기

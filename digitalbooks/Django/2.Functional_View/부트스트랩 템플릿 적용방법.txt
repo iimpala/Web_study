@@ -1,0 +1,27 @@
+1. 부트스트랩 설치
+    pip install bootstrap4
+
+2. settings.py 
+    -> INSTALLED_APPS에 'bootstrap4' 추가
+    -> STATIC_URL = '/static/'
+
+3. urls.py
+    -> path('주소', 뷰) 추가
+    
+4. views.py
+    -> view 구현(함수, 클래스)
+    -> return render(request, 'index.html')
+
+5. 파일 구성
+    static/assets           <== 이미지 등
+    static/css              <== css
+    static/js               <== js
+    templates/index.html    <== html
+
+6. index.html
+    -> {% load static %} : static폴더 위치 명시
+    -> <link href="{% static 'css/styles.css' %}" rel="stylesheet" /> : css파일 연결
+    -> <script src="{% static 'js/scripts.js'%}"></script> : js파일 연결
+
+7. 서버 실행
+    -> python manage.py runserver
