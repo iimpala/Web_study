@@ -1,0 +1,10 @@
+{% extends 'base.html' %}                       <!-- base.html을 상속받음 -->
+{% block title %}Confirm Delete{% endblock %}   <!-- title block에 덮어쓸 내용 -->
+
+{% block content %}                             <!-- content block에 덮어쓸 내용 -->
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="alert alert-danger">Do you want to delete Bookmark "{{object}}"?</div>
+    <input type="submit" value="Delete" class="btn btn-danger">
+</form>
+{% endblock %}

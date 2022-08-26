@@ -1,0 +1,47 @@
+1. 기본 설정 :
+    프로젝트 생성       // django-admin startproject config .
+    -> (db셋업) 
+    -> migrate          // python manage.py migrate
+    -> superuser생성    // python manage.py createsuperuser
+
+2. 앱 생성 : python manage.py startapp <app_name>
+    -> settings.py에 앱 등록 : INSTALLED_APPS에 'bookmark', 추가
+
+3. 파일 역할
+view.py : 서버에서 동작하는 코드
+model.py : 데이터베이스 관리자(<- sql없이 데이터베이스를 다루기 위한 것. 데이터를 객체화 하여 다루기 위함)
+admin.py : 모델을 장고의 기본 관리자페이지에 등록해주는 역할
+apps.py : 어플리케이션 설명
+__init__.py : 파이썬 실행을 위한 파일
+test.py : 유닛테스트 코드
+
+4. model : db를 sql없이 다루기 위한 것. 데이터를 객체화. 테이블(excel의 sheet개념)
+
+*모델            레코드
+field       =   컬럼(열)
+instance    =   레코드(행)
+value       =   값
+
+5. view : 앱의 기능적 부분. 클라스형 뷰와 함수형 뷰가 있음
+
+6. templates : 화면에 보여지는 html문서
+    -> 일반적으로 앱 폴더 안에 tamplates폴더를 만들고 그 안에 다시 앱 이름과 같은 폴더를 만들어서 사용함
+    -> bookmark/tamplates/bookmark/bookmark_list.html
+
+==> 개발 순서 : 프로젝트 생성 -> 모델 구축 -> 뷰 작성 -> 템플릿 작성
+
+7. 템플릿 분할 : 템플릿(html)에서 중복되는 부분들을 layout으로 따로 지정하여 재사용
+    ==> 프로젝트 폴더 아래에 layout폴더 생성(교재에서는 templates/)
+    -> config/settings.py 의 TEMPLATES의 DIRS에 경로 추가
+        * APP_DIRS 옵션 : 앱 폴더 하위의 templates라는 이름을 가진 폴더가 있으면 자동으로 템플릿을 참조함
+        * DIRS : 지정되지 않은 경로의 템플릿 파일에 대한 경로
+    -> layout.html 작성 (겹치는 부분을 {% block %} 으로 처리)
+    -> 각 템플릿에서 layout.html상속 ({extends 'layout.html'}), {% block %}에 상세내용 추가
+
+8. 정적파일 적용 : 이미지 등 static 파일
+    ==> 프로젝트 폴더 아래에 static폴더 생성
+    -> config/settings.py 에 STATICFILES_DIRS 리스트 생성, static폴더 경로 추가
+    -> style.css 작성(디자인)
+    -> base.html에 {% load static %} // <link rel="stylesheet" href="{% static 'style.css' %}">로 스타일 시트 불러오기
+
+9. 배포 : 동적코드를 배포하기 위해서는 호스팅 서버가 필요함.

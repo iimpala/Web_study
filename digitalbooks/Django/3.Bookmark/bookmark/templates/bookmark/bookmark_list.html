@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Bookmark List{% endblock %}
+
+{% block content %} 
+<div class="btn-group">
+    <a href="{% url 'add' %}" class="btn btn-info">Add Bookmark</a>
+    <!-- url 'add' : name이 add인 페이지로 연결 -->
+</div>
+<p></p>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Site</th>
+            <th scope="col">URL</th>
+            <th scope="col">Modify</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- 템플릿 문법 -->
+        {% for bookmark in object_list %}
+        <!-- object_list : 데이터 여러개가 있는 리스트를 줄때의 이름 , object : 하나만 있는 데이터를 줄때의 이름 -->
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <!-- 중괄호 + 퍼센트 : 기능태그, 중괄호 두개 : 출력태그 -->
+                <td><a href="{% url 'detail' pk=bookmark.id %}">{{bookmark.site_name}}</a></td>     <!-- pk=bookmark.id : pk에 id값을 전달하여 url을 만듬 -->
+                <td><a href="{{bookmark.url}}" target="_blank">{{bookmark.url}}</a></td>
+                <td><a href="{% url 'update' pk=bookmark.id %}" class="btn btn-success btn-sm">Modify</a></td>
+                <td><a href="{% url 'delete' pk=bookmark.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
