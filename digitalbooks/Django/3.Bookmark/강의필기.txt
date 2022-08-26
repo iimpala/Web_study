@@ -40,8 +40,9 @@ value       =   값
 
 8. 정적파일 적용 : 이미지 등 static 파일
     ==> 프로젝트 폴더 아래에 static폴더 생성
-    -> config/settings.py 에 STATICFILES_DIRS 리스트 생성, static폴더 경로 추가
+    -> config/settings.py에 STATICFILES_DIRS 리스트 생성, static폴더 경로 추가
     -> style.css 작성(디자인)
     -> base.html에 {% load static %} // <link rel="stylesheet" href="{% static 'style.css' %}">로 스타일 시트 불러오기
 
 9. 배포 : 동적코드를 배포하기 위해서는 호스팅 서버가 필요함.
+    ==> config/settings.py에 ALLOWED_HOST에 서비스 도메인 추가
