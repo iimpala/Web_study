@@ -1,0 +1,20 @@
+## 장고 프로젝트 작업 순서 ##
+1. 장고 설치 : pip install django
+2. 프로젝트 시작 : django-admin startproject config .
+3. db초기화 : python manage.py migrate --run-syncdb
+4. 관리자계정 생성 : python manage.py createsuperuser
+5. 어플리케이션 생성 : python manage.py startapp <name>
+6. 앱 추가 : (settings.py)INSTALLED_APP = ['<name>', ]
+7. 모델 생성 : python manage.py makemigrations -> python manage.py migrate 0001 -> admin.py에 등록(admin.site.register())
+    데이터베이스에 저장될 데이터의 형식. models.Model상속(필요한 기능들 다 있음. 우리는 필드만 지정해주면 됨)
+8. 뷰 생성 : 계산, 처리, 기능
+9. URL매핑 : (urls.py) 라우팅 테이블에 기록
+10. 템플릿 작성 : html문서 작성
+
+
+* 미디어 자료들은 settings.py에서 midea root 지정하여 한 곳에서 관리함
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = path.join(BASE_DIR, 'media')
+
+* 관리자 페이지 커스터마이징 : 직접 클래스를 만들어서 register에 등록
+
