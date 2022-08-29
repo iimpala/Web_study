@@ -65,4 +65,8 @@ value       =   값
         application = StaticFilesHandler(get_wsgi_application())
     -> 가상환경 경로 입력
     
-    * 실제로 정적파일은 StaticFilesHandler대신 settings.py에 STATIC_ROOT = path.join(BASE_DIR,'static_files')를 추가해서 배포
+    * 실제로 정적파일은 StaticFilesHandler대신 
+        settings.py에 STATIC_ROOT = path.join(BASE_DIR,'static_files') 추가
+        -> python manage.py collectstatic 명령 실행
+        -> wsgi.py 에서 StaticFilesHandler제거
+    위의 작업 이후 배포
