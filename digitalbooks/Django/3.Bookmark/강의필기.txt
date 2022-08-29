@@ -44,5 +44,25 @@ value       =   값
     -> style.css 작성(디자인)
     -> base.html에 {% load static %} // <link rel="stylesheet" href="{% static 'style.css' %}">로 스타일 시트 불러오기
 
-9. 배포 : 동적코드를 배포하기 위해서는 호스팅 서버가 필요함.
+9. 배포 : 동적코드를 배포하기 위해서는 호스팅 서버가 필요함. 다른사람들이 내 페이지를 사용할 수 있도록 만드는 것
     ==> config/settings.py에 ALLOWED_HOST에 서비스 도메인 추가
+    -> 깃허브에 업로드
+    -> 파이썬 애니웨어에서 깃허브 레포지토리 클론
+    -> 가상환경 생성 : virtualenv venv --python=python3.7
+    -> 가상환경 활성화 : source venv/bin/activate
+    -> 가상환경에 장고 설치 : pip install django
+    -> db초기화 : python manage.py migrate -run--syncdb
+    -> 관리자계정 생성 : python manage.py createsuperuser
+    -> 파이썬 애니웨어에서 웹 앱 추가
+    -> wsgi파일 복사, 붙여넣기(wsgi.py : 파이썬 시작점 설정. 웹서버에 맞게 수정)
+    -> (wsgi) 
+        import sys
+        path = "프로젝트 파일 경로"
+        if path not in sys.path :
+            sys.pathappend(path)
+        
+        from django.contrib.staticfiles.handlers import StaticFilesHandler      <--static 파일을 장고가 직접 불러오는 모듈(원래는 웹서버 담당)
+        application = StaticFilesHandler(get_wsgi_application())
+    -> 가상환경 경로 입력
+    
+    * 실제로 정적파일은 StaticFilesHandler대신 settings.py에 STATIC_ROOT = path.join(BASE_DIR,'static_files')를 추가해서 배포
