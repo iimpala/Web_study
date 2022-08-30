@@ -20,3 +20,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('photo.urls')),
 ]
+
+# 디버그 모드일때 static기능을 사용
+# 1. 미디어 파일 서버를 별도로 두고 사용
+# 2. 웹서버(아파치)에서 별도로 서빙 설정을 한다
+from django.conf.urls.static import static
+from django.conf import settings
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

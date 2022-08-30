@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}- Upload{% endblock %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <form action="" method="post" enctype="multipart/form-data">    
+            <!--enctype="multipart/form-data" : 파일업로드하는 폼에 곡 들어있어야 함(없으면 파일 전송이 안됨)
+                action="" : 현재 페이지에서 입력과 후처리를 함
+                method="post" : 데이터 전송방식(get은 공격에 취약함)-->
+                {{form.as_p}}
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="Upload">
+            </form>
+            
+        </div>
+
+    </div>
+
+{% endblock %}
