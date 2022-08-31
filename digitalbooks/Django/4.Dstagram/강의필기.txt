@@ -18,3 +18,86 @@
 
 * 관리자 페이지 커스터마이징 : 직접 클래스를 만들어서 register에 등록
 
+* disqus 댓글시스템 사용 : disqus회원가입 이후 아래 작업 실행
+    pip install django-disqus
+    pip install six
+    
+    (settings.py)   
+        INSTALLED_APP = ['disqus', 'django.contrib.sites',]
+        DISQUS_WEBSITE_SHORTNAME = '사이트 이름'
+        SITE_ID = 1
+    
+    (C:\Users\Impala\AppData\Local\Programs\Python\Python310\lib\site-packages\disqus\__init__.py)
+        from six.moves.urllib_parse import urlencode
+        from six.moves.urllib_request import urlopen
+
+    python manage.py migrate
+
+
+* 권한 제한 : Decorator(함수형 뷰) / Mixin(클래스형 뷰)
+
+* 외부 이미지 서버 설정 : AWS S3
+    서버에 이미지 파일을 업로드하거나 수정하거나 지운다 <== 장고 웹앱이 해당 작업을 수행
+    장고 웹앱은 특정 서버에 업로드 되어있음
+    * 해당기능은 특정 서버 안에서만 영향을 끼칠 수 있음
+        -> 실 서비스를 배포하면 서버 컴퓨터는 1대가 아님
+        -> 사용자가 늘어날 때마다 서버 컴퓨터도 늘어남
+        -> 장고 웹앱이 업로드 되어있는 서버 컴퓨터가 늘어난다
+        -> 이미지 파일이 업로드 되어있는 컴퓨터의 댓수도 늘어나야 한다
+        -> 업로드 받은 후에 다른 서버에도 공유해줘야 한다
+        -> 공유해주는 데 사용되는 자원(돈, 시간)이 아까움
+        -> 어떻게 하면 공유하는데 들어가는 자원을 절약할 수 있을까?
+        ==> 이미지는 한 곳의 서버에만 올려놓고 접속해서 사용하자!
+
+    aws회원가입 -> aws s3 버킷생성(public) -> IAM 권한설정
+    -> pip install django3-storages // pip install boto3
+    -> settings.py에 aws s3 연동관련 세팅 추가
+    (settings.py)
+        INSTALLED_APP = ['storages']
+
+        AWS_ACCESS_KEY_ID = '<access key>'
+        AWS_SECRET_ACCESS_KEY = '<secret key>'
+        AWS_REGION = 'ap-northeast-2'
+        AWS_STORAGE_BUCKET_NAME = '<bucket name>'
+        AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' %(AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+
+        AWS_S3_FILE_OVERWRITE = False
+        AWS_S3_OBJECT_PARAMETERS = {
+            'CacheControl' : 'max-age=86400',
+        }
+
+        AWS_DEFAULT_ACL = 'public-read'
+        AWS_LOCATION = 'static'
+
+        # static저장소 연결
+        STATIC_URL = 'http://%s/%s/' %(AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+        STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+        # media저장소 연결(boto3 오버라이드)
+        MEDIA_URL = '/media/'
+        MEDIA_ROOT = path.join(BASE_DIR, 'media')
+
+        DEFAULT_FILE_STORAGE = 'config.s3media.MediaStorage'
+
+* Heroku 배포 : 회원가입 후 Heroku cli 설치
+    -> pip install dj-database-url
+    -> pip install gunicorn
+    -> pip install whitenoise
+    -> pip install psycopg2-binary
+    -> pip freeze > requirements.txt
+    -> (settings)
+        import dj_database_url
+        DEBUG = False
+        ALLOWED_HOST = ['127.0.0.1', '.herokuapp.com']
+        MIDDLEWARE = ["whitenoise.middleware.WhiteNoiseMiddleware"]
+        DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
+    -> (procfile) web : gunicorn config.wsgi --logfile -
+    -> (runtime.txt) : python-3.7.7
+    -> (.gitignore) : *.pyc // *~ // /venv // __pycache__ // db.sqlite3 // .DISQUS_WEBSITE_SHORTNAME
+    -> heroku login
+    -> git commit
+    -> heroku create <name>
+    -> git push heroku main
+    -> heroku run python manage.py migrate --run-syncdb
+    -> heroku run python manage.py createsuperuser
+    -> heroku open
