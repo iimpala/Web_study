@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-wi@alc3$i&lzrp#ky5lgt0nho2tyqlmuwqvfjkr+ok9@b!clmp'
+SECRET_KEY = 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -149,8 +149,8 @@ DISQUS_WEBSITE_SHORTNAME = 'dstargram-poqw'
 SITE_ID = 1
 
 # AWS S3적용
-AWS_ACCESS_KEY_ID = 'AKIASHFOPX55OEE7YIGQ'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = 
+AWS_SECRET_ACCESS_KEY = 
 AWS_REGION = 'ap-northeast-2'
 AWS_STORAGE_BUCKET_NAME = 'dstargram'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' %(AWS_STORAGE_BUCKET_NAME, AWS_REGION)
